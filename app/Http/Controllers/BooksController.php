@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Book; 
 use Illuminate\Http\Request; 
+use App\Http\Resources\BooksResource;
 
 class BooksController extends Controller 
 { 
     public function index() 
     { 
-        return Book::all(); 
+        return BooksResource::collection(Book::all());
     } 
 
     public function store(Request $request) 
@@ -26,7 +27,7 @@ class BooksController extends Controller
 
     public function show(Book $book) 
     { 
-        return $book; 
+        return new BooksResource($book);
     } 
 
     public function update(Request $request, Book $book) 
@@ -39,7 +40,7 @@ class BooksController extends Controller
         ]); 
         $book->update($request->all()); 
 
-        return $book;
+        return new BooksResource($book);
     } 
 
     public function destroy(Book $book) 
